@@ -1,0 +1,129 @@
+TOPIC
+    about_MDTDB
+
+SHORT DESCRIPTION
+    Provides cmdlets to manipulate the Microsoft Deployment Toolkit database.  The original version was created
+    by Michael Niehaus and has been modernized to conform with current PowerShell module best practices.
+
+LONG DESCRIPTION
+    Original version was written by Michael Niehaus. 
+
+EXAMPLES
+    Comments associated only with the computer examples below.  You can quickly see what's happening as you
+    continue to read through the remaining examples.
+
+    # Connect to the MDT database.
+    Connect-MDTDatabase -SqlServer MYSERVER -Instance SQLExpress -Database BDDAdminDB
+
+    # List all computers in the database.
+    Get-MDTComputer -Verbose
+
+    # Delete a computer with asset tag 123ABC.
+    Get-MDTComputer -AssetTag '123ABC' | Remove-MDTComputer -Verbose
+
+    # Create a computer with asset tag 789XYZ with some settings configured.
+    New-MDTComputer -AssetTag '789XYZ' -Settings @{SkipWizard="YES"; DoCapture="YES"} -Verbose
+
+    # Add a configuration setting to an existing computer.
+    Get-MDTComputer -AssetTag '789XYZ' | Set-MDTComputer -Settings @{ComputerName="BLAH"} -Verbose
+
+    # List the details of a computer.
+    Get-MDTComputer -AssetTag '789XYZ'
+
+    # Remove all applications from the computer, set new application to be installed on the computer,
+    # and then list the applications associated with the computer.
+    Get-MDTComputer -AssetTag '789XYZ' | Clear-MDTComputerApplication
+    Get-MDTComputer -AssetTag '789XYZ' | Set-MDTComputerApplication -Applications @('A','B','C')
+    Get-MDTComputer -AssetTag '789XYZ' | Get-MDTComputerApplication
+
+    # Remove all pacakges from the computer, set new packages to be installed on the computer,
+    # and then list the packages associated with the computer.
+    Get-MDTComputer -AssetTag '789XYZ' | Clear-MDTComputerPackage
+    Get-MDTComputer -AssetTag '789XYZ' | Set-MDTComputerPackage -Packages @('P','Q','R')
+    Get-MDTComputer -AssetTag '789XYZ' | Get-MDTComputerPackage
+
+    # Remove all roles from the computer, set new roles on the computer, and then list the roles.
+    Get-MDTComputer -AssetTag '123ABC' | Clear-MDTComputerRole
+    Get-MDTComputer -AssetTag '123ABC' | Set-MDTComputerRole -Roles @('R','S','T')
+    Get-MDTComputer -AssetTag '123ABC' | Get-MDTComputerRole
+
+    # Remove all administrators from the computer, set new administrators on the computer,
+    # and then list the administrators.
+    Get-MDTComputer -AssetTag '123ABC' | Clear-MDTComputerAdministrator
+    Get-MDTComputer -AssetTag '123ABC' | Set-MDTComputerAdministrator -Administrators @('A','B')
+    Get-MDTComputer -AssetTag '123ABC' | Get-MDTComputerAdministrator
+
+    Get-MDTRole -Verbose
+    Get-MDTRole -Name 'Desktops' | Remove-MDTRole -Verbose
+    New-MDTRole -Name 'Laptops' -Settings @{SkipWizard="YES"; DoCapture="YES"} -Verbose
+    Get-MDTRole -Name 'Laptops' | Set-MDTRole -Settings @{ComputerName="BLAH"} -Verbose
+    Get-MDTRole -Name 'Laptops'
+
+    Get-MDTRole -Name 'Laptops' | Clear-MDTRoleApplication
+    Get-MDTRole -Name 'Laptops' | Set-MDTRoleApplication -Applications @('A','B','C')
+    Get-MDTRole -Name 'Laptops' | Get-MDTRoleApplication
+
+    Get-MDTRole -Name 'Laptops' | Clear-MDTRolePackage
+    Get-MDTRole -Name 'Laptops' | Set-MDTRolePackage -Packages @('P','Q','R')
+    Get-MDTRole -Name 'Laptops' | Get-MDTRolePackage
+
+    Get-MDTRole -Name 'Laptops' | Clear-MDTRoleRole
+    Get-MDTRole -Name 'Laptops' | Set-MDTRoleRole -Roles @('R','S','T')
+    Get-MDTRole -Name 'Laptops' | Get-MDTRoleRole
+
+    Get-MDTRole -Name 'Laptops' | Clear-MDTRoleAdministrator
+    Get-MDTRole -Name 'Laptops' | Set-MDTRoleAdministrator -Administrators @('A','B')
+    Get-MDTRole -Name 'Laptops' | Get-MDTRoleAdministrator
+
+    Get-MDTLocation -Verbose
+    Get-MDTLocation -Name 'Seattle' | Remove-MDTLocation -Verbose
+    New-MDTLocation -Name 'Portland' -Gateways @('1.2.3.4','2.3.4.5') -Settings @{SkipWizard="YES"; DoCapture="YES"} -Verbose
+    Get-MDTLocation -Name 'Portland' | Set-MDTLocation -Settings @{ComputerName="BLAH"} -Verbose
+    Get-MDTLocation -Name 'Portland' | Set-MDTLocation -Gateways @('1.2.3.4','2.3.4.5','3.4.5.6') -Verbose
+    Get-MDTLocation -Name 'Portland'
+
+    Get-MDTLocation -Name 'Portland' | Clear-MDTLocationApplication
+    Get-MDTLocation -Name 'Portland' | Set-MDTLocationApplication -Applications @('A','B','C')
+    Get-MDTLocation -Name 'Portland' | Get-MDTLocationApplication
+
+    Get-MDTLocation -Name 'Portland' | Clear-MDTLocationPackage
+    Get-MDTLocation -Name 'Portland' | Set-MDTLocationPackage -Packages @('P','Q','R')
+    Get-MDTLocation -Name 'Portland' | Get-MDTLocationPackage
+
+    Get-MDTLocation -Name 'Portland' | Clear-MDTLocationRole
+    Get-MDTLocation -Name 'Portland' | Set-MDTLocationRole -Roles @('R','S','T')
+    Get-MDTLocation -Name 'Portland' | Get-MDTLocationRole
+
+    Get-MDTLocation -Name 'Portland' | Clear-MDTLocationAdministrator
+    Get-MDTLocation -Name 'Portland' | Set-MDTLocationAdministrator -Administrators @('A','B')
+    Get-MDTLocation -Name 'Portland' | Get-MDTLocationAdministrator
+    Get-MDTLocation -Name 'Portland' -Detail
+
+    Get-MDTMakeModel -Verbose
+    Get-MDTMakeModel -Make 'VMware' -Model 'Virtual Machine' | Remove-MDTMakeModel -Verbose
+    New-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' -Settings @{SkipWizard="YES"; DoCapture="YES"} -Verbose
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Set-MDTMakeModel -settings @{ComputerName="BLAH"} -Verbose
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine'
+
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Clear-MDTMakeModelApplication
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Set-MDTMakeModelApplication -Applications @('A','B','C')
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Get-MDTMakeModelApplication
+
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Clear-MDTMakeModelPackage
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Set-MDTMakeModelPackage -Packages @('P','Q','R')
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Get-MDTMakeModelPackage
+
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Clear-MDTMakeModelRole
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Set-MDTMakeModelRole -Roles @('R','S','T')
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Get-MDTMakeModelRole
+
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Clear-MDTMakeModelAdministrator
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Set-MDTMakeModelAdministrator -Administrators @('A','B')
+    Get-MDTMakeModel -Make 'Microsoft' -Model 'Virtual Machine' | Get-MDTMakeModelAdministrator
+
+    Get-MDTPackageMapping
+    Get-MDTPackageMapping -ARPName 'XYZ'
+    New-MDTPackageMapping -ARPName 'XYZ' -Package 'XXX00001:Test'
+    Get-MDTPackageMapping -ARPName 'XYZ' | Set-MDTPackageMapping -Package 'XXX00002:Test'
+    Get-MDTPackageMapping -ARPName 'XYZ'
+    Get-MDTPackageMapping -ARPName 'XYZ' | Remove-MDTPackageMapping
